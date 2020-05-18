@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Clock</title>
+	
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<style>
+
+    body {
+        height: 100%;
+        width: 100%;
+        background-color: #000;
+		text-align:center;
+    }
+
+    div {
+        height: 1000px;
+        width: 100%;
+    }
+
+    ul {
+        position: absolute;
+        left: 50%;
+        top: 500px;
+    }
+
+    li {
+        color: 	#777;
+        list-style: none;
+        width: 150px;
+        text-transform: lowercase;
+        transform-origin: 0 center;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .month > li {
+        padding: 0 0 0 55px;
+    }
+
+    .day > li {
+        padding: 0 0 0 110px;
+    }
+
+    .week > li {
+        padding: 0 0 0 170px;
+    }
+
+    .hour > li {
+        padding: 0 0 0 235px;
+    }
+
+    .minute > li {
+        padding: 0 0 0 305px;
+    }
+
+    .second > li {
+        padding: 0 0 0 380px;
+    }
+	
+</style>
+
+<body>
+<div>
+    <ul class="month" id="month">
+        <li style="transform: rotate(-150deg); color: rgb(119, 119, 119);">一月</li>
+        <li style="transform: rotate(-120deg); color: rgb(119, 119, 119);">二月</li>
+        <li style="transform: rotate(-90deg); color: rgb(119, 119, 119);">三月</li>
+        <li style="transform: rotate(-60deg); color: rgb(119, 119, 119);">四月</li>
+        <li style="transform: rotate(-30deg); color: rgb(119, 119, 119);">五月</li>
+        <li style="transform: rotate(0deg); color: rgb(255, 255, 255);">六月</li>
+        <li style="transform: rotate(30deg); color: rgb(119, 119, 119);">七月</li>
+        <li style="transform: rotate(60deg); color: rgb(119, 119, 119);">八月</li>
+        <li style="transform: rotate(90deg); color: rgb(119, 119, 119);">九月</li>
+        <li style="transform: rotate(120deg); color: rgb(119, 119, 119);">十月</li>
+        <li style="transform: rotate(150deg); color: rgb(119, 119, 119);">十一月</li>
+        <li style="transform: rotate(180deg); color: rgb(119, 119, 119);">十二月</li>
+    </ul>
+    <ul class="day" id="day">
+    </ul>
+    <ul class="week" id="week">
+    </ul>
+    <ul class="hour" id="hour">
+    </ul>
+    <ul class="minute" id="minute">
+    </ul>
+    <ul class="second" id="second">
+    </ul>
+</div>
+<br\>
+<div class="time">
+	<font color="#FFFFFF">
+	<p>服务器起始日期：2019-03-01</p>
+	<p>到期时间倒计时：</p>
+    <span id="showInterval"></span>	
+</div>
+
+</body>
+<script>
+    function mGetDate(year, month) {
+
+        var d = new Date(year, month, 0);
+        return d.getDate();
+    }
+
+    function numberToChinese(num) {
+        var chineseNum = '零一二三四五六七八九十';
+        var chinese = '';
+        if (num <= 10) {
+            return chineseNum.split('')[num]
+        } else if (num < 20) {
+            return '十' + chineseNum.split('')[num - 10]
+        } else {
+            if (num % 10 == 0) {
+                return chineseNum.split('')[num / 10] + '十'
+            } else {
+                return chineseNum.split('')[parseInt(num / 10)] + '十' + chineseNum.split('')[parseInt(num % 10)]
+            }
+        }
+
+    }
+
+    var myDate = new Date();
+    var month = document.getElementById('month');
+    var day = document.getElementById('day');
+    var week = document.getElementById('week');
+    var hour = document.getElementById('hour');
+    var minute = document.getElementById('minute');
+    var second = document.getElementById('second');
+    var html = ``;
+    // 生成月html
+    for (var i = 0; i < 12; i++) {
+        html += `<li>` + numberToChinese(i + 1) + `月</li>`
+    }
+    month.innerHTML = html;
+
+    //  生成日html
+    var months = myDate.getMonth() + 1;   //月份从0开始获取，所以需要加1
+    var year = myDate.getYear();
+    var d = new Date(year, months, 0);
+    var days = d.getDate();
+    html = ``
+    for (i = 0; i < days; i++) {
+        html += `<li>` + numberToChinese(i + 1) + `日</li>`
+    }
+    day.innerHTML = html;
+
+    // 星期html
+    html = ``
+    for (i = 0; i < 7; i++) {
+        if (i == 6) {
+            html += `<li>星期日</li>`
+        } else {
+            html += `<li>星期` + numberToChinese(i + 1) + `</li>`
+        }
+    }
+    week.innerHTML = html;
+
+    // 时html
+    html = ``
+    for (i = 0; i < 24; i++) {
+        html += `<li>` + numberToChinese(i) + `时</li>`
+    }
+    hour.innerHTML = html;
+    //分html
+    html = ``
+    for (i = 0; i < 60; i++) {
+        html += `<li>` + numberToChinese(i) + `分</li>`
+    }
+    minute.innerHTML = html;
+    //秒html
+    html = ``
+    for (i = 0; i < 60; i++) {
+        html += `<li>` + numberToChinese(i) + `秒</li>`
+    }
+    second.innerHTML = html;
+
+
+    function setTime() {
+        // 获取当前时间
+        var myDate = new Date();
+        var numArray = [myDate.getMonth() + 1, myDate.getDate(), myDate.getDay(), myDate.getHours() + 1, myDate.getMinutes() + 1, myDate.getSeconds() + 1];// 月,日,星期,时,分,秒
+
+        var l = 6;
+        // 遍历ul实现时间赋值与更改
+        $("ul").each(function () {
+            let length = $(this).children().length
+            for (let j = 0; j < length; j++) {
+                let deg = "rotate(" + (j + 1 - numArray[6 - l]) * 360 / length + "deg)"
+                $(this).find("li").eq(j).css("transform", deg);
+                if (j + 1 - numArray[6 - l] == 0 || (l == 4 && j == length - 1 && numArray[6 - l] == 0)) {
+
+                    $(this).find("li").eq(j).css("color", "	#fff");
+                } else {
+                    $(this).find("li").eq(j).css("color", "	#FF00FF");
+                }
+            }
+            l--;
+        })
+    }
+
+    setTime()
+    window.setInterval("setTime()", 1000);
+	
+	function getDistanceTime(time,showInterval){
+        var endTime= new Date(Date.parse(time.replace(/-/g, "/")));/*replace将时间字符串中所有的'-'替换成'/',parse将时间格式的字符串转换成毫秒*/
+        var nowTime = new Date();
+        var distance =endTime.getTime() - nowTime.getTime();/*getTime把一个date对象转换成毫秒*/
+
+        var day = 0;
+        var hour = 0;
+        var minute = 0;
+        var second = 0;
+		
+        if(distance >= 0){
+            day = Math.floor(distance/1000/60/60/24);
+            hour = Math.floor(distance/1000/60/60%24);
+            minute = Math.floor(distance/1000/60%60);
+            second = Math.floor(distance/1000%60);
+        }else{
+            alert("目标日期小于当前日期!")
+        }
+		
+        document.getElementById(showInterval).innerHTML = day + "天" +  hour + "时" + minute + "分" + second + "秒";
+    }
+    setInterval(function(){getDistanceTime('2021-03-14 00:00:00','showInterval');},0);
+</script>
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AP用户数展示</title>
+    <script src="/static/echarts/js/jquery-1.12.4.js"></script>
+    <script src="/static/echarts/js/echarts.min.js"></script>
+
+</head>
+
+<body>
+<div id="main" style="width:2000px;height:800px;"></div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    // 异步加载数据
+    $.get('/static/echarts/data/data.json').done(function (data) {
+
+        // 填入数据
+        myChart.setOption({
+            title: {
+                text: '北京狸米科技有限公司AP用户数连接'
+            },
+            tooltip: {},
+            legend: {
+                data: ['用户数']
+            },
+            xAxis: {
+                data: data.APNAME
+            },
+            yAxis: {},
+            series: [{
+                name: '用户数',
+                type: 'bar',
+                data: data.APUser
+            }]
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>echarts学习</title>
+    <script src="/static/echarts/js/jquery-1.12.4.js"></script>
+    <script src="/static/echarts/js/echarts.min.js"></script>
+
+</head>
+
+<body>
+<div id="main" style="width:4000px;height:800px;"></div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    // 异步加载数据
+    $.get('/static/echarts/data/Liveroom_out.json').done(function (data) {
+
+        // 填入数据
+        myChart.setOption({
+            title: {
+                text: '直播间流量下行示例'
+            },
+            tooltip: {},
+            legend: {
+                data: ['直播间']
+            },
+            xAxis: {
+                data: data.Room
+            },
+            yAxis: {},
+            series: [{
+                name: '下行流量',
+                type: 'bar',
+                data: data.Values
+            }]
+        });
+    });
+</script>
+</body>
+</html>
