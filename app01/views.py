@@ -1,10 +1,7 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time  : 2020/5/18 17:42
-# @Author : cuijianzhe
-# @File  : views.py
-# @Software: PyCharm
-from django.shortcuts import HttpResponse, render, redirect
+from django.shortcuts import render,redirect
+
+# Create your views here.
+
 def yimi(request):
     #request参数保存了所有和用户浏览器相关请求的数据
     # with open("templates/yimi.html","r",encoding="utf-8") as f:
@@ -38,5 +35,3 @@ def login(request):
         error_msg = "邮箱或者密码错误"
     # 不是POST请求就走下面这一句
     return render(request,"login.html",{"error": error_msg})
-
-

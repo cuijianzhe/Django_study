@@ -15,15 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import yimi,xiaohei,APuser,LiveRoom_in,login
-
+from app01 import views
 #保存路径和函数的对应关系
 urlpatterns = [
-    url(r'^yimi',yimi),
-    url(r'^xiaohei',xiaohei),
-    url(r'^APuser',APuser),
-    url(r'^LiveRoom_in',LiveRoom_in),
-    url(r'^login/',login),
+    url(r'^yimi', views.yimi),
+    url(r'^xiaohei', views.xiaohei),
+    url(r'^APuser', views.APuser),
+    url(r'^LiveRoom_in', views.LiveRoom_in),
+    url(r'^login/',views.login),
     # url(r'^user_list/', views.user_list),
     # url(r'^add_user/', views.add_user),
     # url(r'^admin/', admin.site.urls),
