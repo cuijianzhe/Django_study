@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^APuser', views.APuser),
     url(r'^LiveRoom_in', views.LiveRoom_in),
     url(r'^login/',views.login),
-    # url(r'^user_list/', views.user_list),
+    url(r'^user_list/', views.user_list),
     # url(r'^add_user/', views.add_user),
     # url(r'^admin/', admin.site.urls),
 ]

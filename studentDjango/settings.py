@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'studentDjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST':'127.0.0.1',
-        'PORT': 3306,
-        'NAME': "study",
-        'USER:': "root",
-        'PASSWORD': "598941324",
+        'ENGINE': 'django.db.backends.mysql',  # 连接的数据库类型
+        'HOST': '192.168.100.2',  # 连接数据库的地址
+        'PORT': 3306,  # 端口
+        'NAME': "study",  # 数据库名称
+        'USER': 'root',  # 用户
+        'PASSWORD': '598941324'  # 密码
     }
 }
 

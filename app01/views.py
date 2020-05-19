@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect
-
+from django.shortcuts import HttpResponse,render,redirect
+from app01 import models
 # Create your views here.
 
 def yimi(request):
@@ -35,3 +35,11 @@ def login(request):
         error_msg = "邮箱或者密码错误"
     # 不是POST请求就走下面这一句
     return render(request,"login.html",{"error": error_msg})
+
+def user_list(request):
+    #去数据库中查询所有用户
+    #利用ORM这个工具去查询数据库，不用自己查询
+    ret = models.UserInfo.objects.all() #[UserInfo object,UserInfo object]
+    print(ret[0].id,ret[1].name)
+    return render(request,"user_list.html",{"user_list":ret})
+    # return HttpResponse('1234')
