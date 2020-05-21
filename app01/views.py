@@ -40,6 +40,19 @@ def user_list(request):
     #去数据库中查询所有用户
     #利用ORM这个工具去查询数据库，不用自己查询
     ret = models.UserInfo.objects.all() #[UserInfo object,UserInfo object]
-    print(ret[0].id,ret[1].name)
+    # print(ret[0].id,ret[1].name)
     return render(request,"user_list.html",{"user_list":ret})
     # return HttpResponse('1234')
+
+#添加用户的函数
+def add_user(request):
+    if request.method == "POST":
+        #用户填写了新的用户名，并发送了POST请求过来
+        new_name = request.POST.get("username",None)
+        #去数据库中新建一条用户记录
+        models.UserInfo.objects.create(name=new_name)
+        # return HttpResponse("tianjia")
+        #添加用户成功后直接跳转到user_list页面
+        return redirect("/user_list/")
+    #第一次请求页面时，页面上有两个框让用户添加
+    return render(request,"add_user.html")
